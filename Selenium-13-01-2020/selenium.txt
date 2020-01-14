@@ -1,0 +1,59 @@
+import java.io.File;
+import java.io.IOException;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.*;
+import org.openqa.selenium.support.ui.Select;
+//import org.openqa.selenium.remote.DesiredCapabilities;
+
+
+import org.apache.commons.io.FileUtils;
+//import org.testng.annotations.Test;
+
+public class SeleniumWebDriver {
+	
+	private static String fileWithPath;
+	public static void main(String[] args) throws InterruptedException, IOException{
+		System.setProperty("webdriver.chrome.driver","C:\\chromedriver\\chromedriver.exe");
+			//DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+			//	capabilities.setCapability("marionette", true);
+		WebDriver driver = new ChromeDriver();
+		
+		//Write "mobiles" in the searchbar
+		driver.get("https://www.flipkart.com/");
+		driver.findElement(By.name("q")).sendKeys("mobiles");
+		
+		//autocheck 6GB RAM checkbox
+		driver.get("https://www.flipkart.com/mobiles/mi~brand/pr?sid=tyy,4io&otracker=nmenu_sub_Electronics_0_Mi");
+		WebElement chkbox=driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/div[2]/div[1]/div[1]/div/div[1]/div/section[4]/div[2]/div/div[1]/div/div/label/div[1]"));
+		chkbox.click();
+		if(chkbox.isSelected()){
+			System.out.println("Check is on");
+		}
+		
+		//auto click on male radio button facebook
+		driver.get("https://www.facebook.com/");
+		WebElement radio=driver.findElement(By.id("u_0_a"));
+		radio.click();
+		
+		//automatically click on a link by its text
+		driver.get("https://www.facebook.com/");
+		WebElement linktext=driver.findElement(By.linkText("Sign Up"));
+		linktext.click();
+		
+		//select a value from a dropdown
+		driver.get("https://www.facebook.com/");
+		Select drpmonth=new Select(driver.findElement(By.id("month")));
+		drpmonth.selectByVisibleText("May");
+
+		//take a screenshot
+		driver.get("https://www.facebook.com/");
+		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(src,new File("C:/Selenium/Error.png"));
+	}
+
+}
